@@ -25,17 +25,11 @@ Cannot find module '@radix-ui/react-avatar'
 **Fix:**
 ```bash
 cd frontend
-pnpm add @radix-ui/react-tooltip @radix-ui/react-popover \
-  @radix-ui/react-avatar @radix-ui/react-checkbox \
-  @radix-ui/react-collapsible @radix-ui/react-context-menu \
-  @radix-ui/react-dropdown-menu @radix-ui/react-hover-card \
-  @radix-ui/react-menubar @radix-ui/react-navigation-menu \
-  @radix-ui/react-progress @radix-ui/react-radio-group \
-  @radix-ui/react-scroll-area @radix-ui/react-separator \
-  @radix-ui/react-slider @radix-ui/react-switch \
-  @radix-ui/react-toggle @radix-ui/react-toggle-group \
-  input-otp vaul recharts date-fns react-day-picker
+pnpm add @radix-ui/react-aspect-ratio embla-carousel-react \
+  cmdk react-hook-form react-resizable-panels next-themes
 ```
+
+**Note:** Most Radix UI packages are already installed. Only the above 6 packages are missing.
 
 **Files Affected:**
 - `src/components/ui/tooltip.tsx`
@@ -309,16 +303,8 @@ Run these commands in order:
 ```bash
 # 1. Install missing dependencies
 cd frontend
-pnpm add @radix-ui/react-tooltip @radix-ui/react-popover \
-  @radix-ui/react-avatar @radix-ui/react-checkbox \
-  @radix-ui/react-collapsible @radix-ui/react-context-menu \
-  @radix-ui/react-dropdown-menu @radix-ui/react-hover-card \
-  @radix-ui/react-menubar @radix-ui/react-navigation-menu \
-  @radix-ui/react-progress @radix-ui/react-radio-group \
-  @radix-ui/react-scroll-area @radix-ui/react-separator \
-  @radix-ui/react-slider @radix-ui/react-switch \
-  @radix-ui/react-toggle @radix-ui/react-toggle-group \
-  input-otp vaul recharts date-fns react-day-picker
+pnpm add @radix-ui/react-aspect-ratio embla-carousel-react \
+  cmdk react-hook-form react-resizable-panels next-themes
 
 # 2. Fix const.ts (see Issue #2 above)
 
