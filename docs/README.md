@@ -18,6 +18,8 @@ This directory contains comprehensive flow diagrams and schema documentation for
 
 **View:** [architecture.mmd](./architecture.mmd)
 
+![System Architecture](architecture.png)
+
 ---
 
 ### 2. Registration Flow (`registration-flow.mmd`)
@@ -33,6 +35,8 @@ This directory contains comprehensive flow diagrams and schema documentation for
 
 **View:** [registration-flow.mmd](./registration-flow.mmd)
 
+![Registration Flow](registration-flow.png)
+
 ---
 
 ### 3. Authentication Flow (`auth-flow.mmd`)
@@ -47,6 +51,8 @@ This directory contains comprehensive flow diagrams and schema documentation for
 - Logout process
 
 **View:** [auth-flow.mmd](./auth-flow.mmd)
+
+![Authentication Flow](auth-flow.png)
 
 ---
 
@@ -64,6 +70,8 @@ This directory contains comprehensive flow diagrams and schema documentation for
 
 **View:** [database-schema.mmd](./database-schema.mmd)
 
+![Database Schema](database-schema.png)
+
 ---
 
 ### 5. Audit Logging Flow (`audit-logging-flow.mmd`)
@@ -78,6 +86,8 @@ This directory contains comprehensive flow diagrams and schema documentation for
 - Data deletion requests
 
 **View:** [audit-logging-flow.mmd](./audit-logging-flow.mmd)
+
+![Audit Logging Flow](audit-logging-flow.png)
 
 ---
 
@@ -94,6 +104,8 @@ This directory contains comprehensive flow diagrams and schema documentation for
 - Free registration flow (₹0 after discount)
 
 **View:** [payment-flow.mmd](./payment-flow.mmd)
+
+![Payment Flow](payment-flow.png)
 
 ---
 
