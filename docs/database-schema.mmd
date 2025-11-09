@@ -1,0 +1,144 @@
+```mermaid
+erDiagram
+    EVENTS ||--o{ STUDENT_REGISTRATIONS : "has many"
+    EVENTS ||--o{ SCHOOL_REGISTRATIONS : "has many"
+    EVENTS ||--o{ COUPONS : "has many"
+    SCHOOL_REGISTRATIONS ||--o{ STUDENT_REGISTRATIONS : "has many"
+    COUPONS ||--o{ PAYMENTS : "used in"
+    STUDENT_REGISTRATIONS ||--o| PAYMENTS : "has payment"
+    SCHOOL_REGISTRATIONS ||--o| PAYMENTS : "has payment"
+
+    EVENTS {
+        uuid id PK
+        uuid tenant_id FK
+        string title
+        string slug UK
+        string tagline
+        text description
+        string event_type
+        enum status
+        datetime start_date
+        datetime end_date
+        datetime registration_deadline
+        string banner_image_url
+        text content_sections
+        text prizes
+        text sponsors
+        text faqs
+        int max_participants
+        boolean is_free
+        int registration_fee
+        datetime created_at
+        datetime updated_at
+        uuid created_by
+    }
+
+    STUDENT_REGISTRATIONS {
+        uuid id PK
+        uuid tenant_id FK
+        uuid event_id FK
+        uuid school_id FK
+        string full_name
+        string email
+        string mobile
+        string school_name
+        string grade
+        int age
+        string stream
+        string linkedin_url
+        string cv_url
+        text dietary_requirements
+        uuid stride_user_id
+        enum status
+        string registration_code UK
+        string payment_status
+        string payment_id
+        boolean consent_terms
+        boolean consent_privacy
+        boolean consent_parental
+        boolean consent_data_processing
+        boolean consent_marketing
+        string parent_name
+        string parent_email
+        string parent_mobile
+        datetime registered_at
+        datetime updated_at
+    }
+
+    SCHOOL_REGISTRATIONS {
+        uuid id PK
+        uuid tenant_id FK
+        uuid event_id FK
+        string school_name
+        string contact_person_name
+        string contact_email
+        string contact_mobile
+        string school_code UK
+        string city
+        string state
+        int total_students_registered
+        boolean consent_terms
+        boolean consent_privacy
+        boolean consent_data_processing
+        boolean consent_marketing
+        datetime registered_at
+        datetime updated_at
+    }
+
+    COUPONS {
+        uuid id PK
+        uuid tenant_id FK
+        uuid event_id FK
+        string code UK
+        string discount_type
+        int discount_value
+        int max_uses
+        int used_count
+        datetime valid_from
+        datetime valid_until
+        boolean is_active
+        int min_amount
+        string applicable_to
+        datetime created_at
+        datetime updated_at
+    }
+
+    PAYMENTS {
+        uuid id PK
+        uuid tenant_id FK
+        uuid registration_id FK
+        string registration_type
+        int amount
+        string currency
+        string status
+        string gateway
+        string gateway_order_id UK
+        string gateway_payment_id UK
+        string gateway_signature
+        uuid coupon_id FK
+        int discount_amount
+        int final_amount
+        string payment_method
+        text error_message
+        json gateway_response
+        datetime created_at
+        datetime updated_at
+        datetime paid_at
+    }
+
+    AUDIT_LOGS {
+        uuid id PK
+        string event_type
+        string action
+        string status
+        int user_id
+        string user_email
+        string resource_type
+        int resource_id
+        text details
+        text error_message
+        string ip_address
+        string user_agent
+        datetime timestamp
+    }
+```

@@ -1,0 +1,68 @@
+```mermaid
+graph TB
+    subgraph "Frontend - React + TypeScript"
+        A[User Browser] --> B[React App]
+        B --> C[Event Landing Page]
+        B --> D[Terms & Conditions]
+        B --> E[Privacy Policy]
+        B --> F[Admin Dashboard]
+        C --> G[Registration Forms]
+        G --> H[Student Registration]
+        G --> I[School Registration]
+    end
+
+    subgraph "Backend - FastAPI"
+        J[API Gateway] --> K[Events Service]
+        J --> L[Registrations Service]
+        J --> M[Payments Service]
+        J --> N[Notifications Service]
+        J --> O[Auth Service]
+        
+        O --> P[JWT Middleware]
+        P --> Q[Stride ID SSO]
+        
+        K --> R[Events CRUD]
+        L --> S[Student Registration]
+        L --> T[School Registration]
+        M --> U[Razorpay]
+        M --> V[Stripe]
+        N --> W[SendGrid Email]
+        N --> X[Karix WhatsApp]
+    end
+
+    subgraph "Data Layer"
+        Y[(PostgreSQL Database)]
+        Z[Audit Logs]
+        AA[File Storage S3]
+    end
+
+    subgraph "External Services"
+        Q[Stride ID SSO]
+        U[Razorpay]
+        V[Stripe]
+        W[SendGrid]
+        X[Karix WhatsApp]
+    end
+
+    B -->|REST API| J
+    R --> Y
+    S --> Y
+    T --> Y
+    K --> Z
+    L --> Z
+    M --> Z
+    N --> Z
+    S --> AA
+    T --> AA
+
+    style A fill:#e1f5ff
+    style B fill:#b3e5fc
+    style J fill:#fff9c4
+    style Y fill:#c8e6c9
+    style Z fill:#ffccbc
+    style Q fill:#f8bbd0
+    style U fill:#f8bbd0
+    style V fill:#f8bbd0
+    style W fill:#f8bbd0
+    style X fill:#f8bbd0
+```

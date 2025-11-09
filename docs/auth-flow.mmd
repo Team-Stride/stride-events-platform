@@ -1,0 +1,83 @@
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant F as Frontend
+    participant A as API Gateway
+    participant Auth as Auth Service
+    participant SSO as Stride ID SSO
+    participant D as Database
+    participant L as Audit Log
+
+    rect rgb(200, 220, 250)
+        Note over U,SSO: Login Flow
+        U->>F: Access Protected Resource
+        F->>F: Check localStorage for JWT
+        alt No JWT Token
+            F->>U: Redirect to Login Page
+            U->>F: Click "Login with Stride ID"
+            F->>SSO: Redirect to SSO Login
+            U->>SSO: Enter Credentials
+            SSO->>SSO: Validate Credentials
+            SSO-->>F: Redirect with Auth Code
+            F->>Auth: POST /auth/callback {code}
+            Auth->>SSO: Validate Auth Code
+            SSO-->>Auth: User Info + Token
+            Auth->>D: Upsert User Record
+            Auth->>L: Log Login Event
+            Auth-->>F: JWT Token
+            F->>F: Store JWT in localStorage
+            F-->>U: Redirect to Original Page
+        end
+    end
+
+    rect rgb(220, 250, 220)
+        Note over U,L: Authenticated Request Flow
+        U->>F: Make API Request
+        F->>F: Get JWT from localStorage
+        F->>A: API Request + Authorization Header
+        Note over F,A: Header: Bearer {JWT}
+        
+        A->>Auth: Validate JWT
+        Auth->>Auth: Verify Signature
+        Auth->>Auth: Check Expiration
+        
+        alt JWT Valid
+            Auth->>SSO: Validate with Stride ID (optional)
+            SSO-->>Auth: Token Valid
+            Auth-->>A: User Context
+            A->>D: Execute Request
+            D-->>A: Response Data
+            A->>L: Log Data Access
+            A-->>F: Success Response
+            F-->>U: Display Data
+        else JWT Invalid/Expired
+            Auth-->>A: 401 Unauthorized
+            A-->>F: 401 Error
+            F->>F: Clear localStorage
+            F->>U: Redirect to Login
+        end
+    end
+
+    rect rgb(250, 220, 220)
+        Note over U,L: Logout Flow
+        U->>F: Click Logout
+        F->>F: Clear JWT from localStorage
+        F->>A: POST /auth/logout
+        A->>L: Log Logout Event
+        A-->>F: Success
+        F->>U: Redirect to Home
+    end
+
+    rect rgb(250, 240, 200)
+        Note over U,L: Token Refresh Flow (Future)
+        F->>F: Check JWT Expiration
+        alt Token Expiring Soon
+            F->>Auth: POST /auth/refresh
+            Auth->>SSO: Validate Refresh Token
+            SSO-->>Auth: New JWT
+            Auth->>L: Log Token Refresh
+            Auth-->>F: New JWT Token
+            F->>F: Update localStorage
+        end
+    end
+```

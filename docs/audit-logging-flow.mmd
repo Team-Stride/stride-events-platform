@@ -1,0 +1,104 @@
+```mermaid
+graph TB
+    subgraph "User Actions"
+        A1[Registration]
+        A2[Consent Given]
+        A3[Payment]
+        A4[Data Access]
+        A5[Data Deletion]
+        A6[Email Sent]
+        A7[WhatsApp Sent]
+    end
+
+    subgraph "Audit Log Service"
+        B[AuditLogService]
+        B1[log_registration]
+        B2[log_consent_given]
+        B3[log_payment]
+        B4[log_data_access]
+        B5[log_data_deletion]
+        B6[log_email_sent]
+        B7[log_whatsapp_sent]
+    end
+
+    subgraph "Data Captured"
+        C1[Event Type]
+        C2[Action]
+        C3[User Info]
+        C4[Resource Info]
+        C5[IP Address]
+        C6[User Agent]
+        C7[Timestamp]
+        C8[Status]
+        C9[Details JSON]
+    end
+
+    subgraph "Database"
+        D[(audit_logs table)]
+    end
+
+    subgraph "Compliance Use Cases"
+        E1[GDPR Data Export]
+        E2[Security Audit]
+        E3[Incident Investigation]
+        E4[Consent Proof]
+        E5[Payment Reconciliation]
+    end
+
+    A1 --> B1
+    A2 --> B2
+    A3 --> B3
+    A4 --> B4
+    A5 --> B5
+    A6 --> B6
+    A7 --> B7
+
+    B1 --> B
+    B2 --> B
+    B3 --> B
+    B4 --> B
+    B5 --> B
+    B6 --> B
+    B7 --> B
+
+    B --> C1
+    B --> C2
+    B --> C3
+    B --> C4
+    B --> C5
+    B --> C6
+    B --> C7
+    B --> C8
+    B --> C9
+
+    C1 --> D
+    C2 --> D
+    C3 --> D
+    C4 --> D
+    C5 --> D
+    C6 --> D
+    C7 --> D
+    C8 --> D
+    C9 --> D
+
+    D --> E1
+    D --> E2
+    D --> E3
+    D --> E4
+    D --> E5
+
+    style A1 fill:#e1f5ff
+    style A2 fill:#e1f5ff
+    style A3 fill:#e1f5ff
+    style A4 fill:#e1f5ff
+    style A5 fill:#e1f5ff
+    style A6 fill:#e1f5ff
+    style A7 fill:#e1f5ff
+    style B fill:#fff9c4
+    style D fill:#c8e6c9
+    style E1 fill:#ffccbc
+    style E2 fill:#ffccbc
+    style E3 fill:#ffccbc
+    style E4 fill:#ffccbc
+    style E5 fill:#ffccbc
+```

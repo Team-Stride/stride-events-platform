@@ -1,0 +1,69 @@
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant F as Frontend
+    participant A as API Gateway
+    participant R as Registration Service
+    participant P as Payment Service
+    participant E as Email Service
+    participant W as WhatsApp Service
+    participant D as Database
+    participant L as Audit Log
+
+    U->>F: Visit Event Landing Page
+    F->>A: GET /events/{slug}
+    A->>R: Fetch Event Details
+    R->>D: Query Event
+    D-->>R: Event Data
+    R-->>A: Event Details
+    A-->>F: Event JSON
+    F-->>U: Display Event Page
+
+    U->>F: Click "Register as Student"
+    F-->>U: Show Registration Form
+
+    U->>F: Fill Form + Consent Checkboxes
+    Note over U,F: Required: Terms, Privacy, Parental, Data Processing<br/>Optional: Marketing
+
+    U->>F: Submit Registration
+    F->>F: Validate Form Data
+    F->>A: POST /registrations/student
+    A->>R: Create Student Registration
+
+    R->>R: Validate Data
+    R->>D: Insert Student Record
+    D-->>R: Registration Created
+
+    R->>L: Log Registration Event
+    L->>D: Insert Audit Log
+    Note over L,D: Captures: IP, User Agent, Consent Details
+
+    alt Payment Required
+        R->>P: Create Payment Order
+        P->>D: Insert Payment Record
+        P-->>R: Payment Order ID
+        R-->>A: Registration + Payment Details
+        A-->>F: Payment Order
+        F->>U: Redirect to Payment Gateway
+        U->>P: Complete Payment
+        P->>L: Log Payment Event
+        P->>D: Update Payment Status
+        P->>E: Send Payment Confirmation
+    else Free Registration
+        R-->>A: Registration Success
+        A-->>F: Success Response
+    end
+
+    R->>E: Send Registration Confirmation
+    E->>L: Log Email Event
+    E-->>R: Email Sent
+
+    R->>W: Send WhatsApp Notification
+    W->>L: Log WhatsApp Event
+    W-->>R: Message Sent
+
+    F-->>U: Show Success Message
+    F-->>U: Display Registration Code
+
+    Note over U,F: User receives:<br/>1. Email confirmation<br/>2. WhatsApp notification<br/>3. Registration code
+```

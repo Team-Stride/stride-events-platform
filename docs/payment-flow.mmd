@@ -1,0 +1,110 @@
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant F as Frontend
+    participant A as API Gateway
+    participant P as Payment Service
+    participant R as Razorpay/Stripe
+    participant D as Database
+    participant L as Audit Log
+    participant E as Email Service
+    participant W as WhatsApp Service
+
+    rect rgb(200, 220, 250)
+        Note over U,D: Payment Initiation
+        U->>F: Complete Registration Form
+        F->>F: Calculate Fee (₹99)
+        
+        alt User Enters Coupon Code
+            U->>F: Enter "KEEPSTRIDING"
+            F->>A: POST /coupons/validate
+            A->>P: Validate Coupon
+            P->>D: Query Coupon
+            D-->>P: Coupon Details
+            P->>P: Check Validity & Usage
+            alt Coupon Valid
+                P-->>A: Discount: 100%
+                A-->>F: Final Amount: ₹0
+                F-->>U: Show Discount Applied
+            else Coupon Invalid
+                P-->>A: Error: Invalid/Expired
+                A-->>F: Error Message
+                F-->>U: Show Error
+            end
+        end
+    end
+
+    rect rgb(220, 250, 220)
+        Note over U,W: Payment Processing
+        alt Final Amount > 0
+            F->>A: POST /payments/create-order
+            A->>P: Create Payment Order
+            P->>R: Create Order
+            R-->>P: Order ID
+            P->>D: Insert Payment Record
+            P->>L: Log Payment Initiation
+            P-->>A: Order Details
+            A-->>F: Payment Order
+            
+            F->>U: Open Payment Gateway
+            U->>R: Enter Payment Details
+            R->>R: Process Payment
+            
+            alt Payment Success
+                R-->>F: Payment Success Callback
+                F->>A: POST /payments/verify
+                A->>P: Verify Payment
+                P->>R: Verify Signature
+                R-->>P: Signature Valid
+                P->>D: Update Payment Status = success
+                P->>D: Update Registration Status = confirmed
+                P->>L: Log Payment Success
+                P-->>A: Payment Verified
+                A-->>F: Success Response
+                
+                P->>E: Send Payment Confirmation
+                E->>L: Log Email Sent
+                P->>W: Send WhatsApp Confirmation
+                W->>L: Log WhatsApp Sent
+                
+                F-->>U: Show Success Message
+            else Payment Failed
+                R-->>F: Payment Failed Callback
+                F->>A: POST /payments/failed
+                A->>P: Handle Failure
+                P->>D: Update Payment Status = failed
+                P->>L: Log Payment Failure
+                P-->>A: Failure Recorded
+                A-->>F: Failure Response
+                F-->>U: Show Error + Retry Option
+            end
+        else Final Amount = 0 (Free/100% Discount)
+            F->>A: POST /registrations/complete-free
+            A->>P: Record Free Registration
+            P->>D: Update Registration Status = confirmed
+            P->>L: Log Free Registration
+            
+            alt Coupon Used
+                P->>D: Increment Coupon Usage
+            end
+            
+            P->>E: Send Registration Confirmation
+            E->>L: Log Email Sent
+            P->>W: Send WhatsApp Confirmation
+            W->>L: Log WhatsApp Sent
+            
+            P-->>A: Registration Complete
+            A-->>F: Success Response
+            F-->>U: Show Success Message
+        end
+    end
+
+    rect rgb(250, 240, 200)
+        Note over U,W: Post-Payment
+        U->>U: Receives Email Confirmation
+        U->>U: Receives WhatsApp Message
+        U->>U: Gets Registration Code
+        
+        Note over D,L: All events logged in audit_logs:<br/>- Payment initiation<br/>- Coupon validation<br/>- Payment success/failure<br/>- Email sent<br/>- WhatsApp sent
+    end
+```
