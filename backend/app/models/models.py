@@ -233,3 +233,41 @@ class Payment(Base):
     created_at = Column(DateTime(timezone=True), default=datetime.utcnow)
     updated_at = Column(DateTime(timezone=True), default=datetime.utcnow, onupdate=datetime.utcnow)
     paid_at = Column(DateTime(timezone=True), nullable=True)
+
+
+class AuditLog(Base):
+    """
+    Audit log table for compliance and security tracking.
+    Tracks all critical operations especially for student data protection.
+    """
+    __tablename__ = "audit_logs"
+    
+    # Primary key
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    
+    # Event details
+    event_type = Column(String(50), nullable=False, index=True)  # registration, payment, consent, data_access, etc.
+    action = Column(String(50), nullable=False)  # create, read, update, delete, consent_given, etc.
+    status = Column(String(20), default="success")  # success, failure
+    
+    # User information
+    user_id = Column(Integer, nullable=True, index=True)
+    user_email = Column(String(320), nullable=True, index=True)
+    
+    # Resource information
+    resource_type = Column(String(50), nullable=True)  # student, school, event, payment, etc.
+    resource_id = Column(Integer, nullable=True)
+    
+    # Additional details
+    details = Column(Text, nullable=True)  # JSON string with additional context
+    error_message = Column(Text, nullable=True)
+    
+    # Request metadata
+    ip_address = Column(String(45), nullable=True)  # IPv4 or IPv6
+    user_agent = Column(String(500), nullable=True)
+    
+    # Timestamp
+    timestamp = Column(DateTime(timezone=True), default=datetime.utcnow, nullable=False, index=True)
+    
+    def __repr__(self):
+        return f"<AuditLog {self.event_type}:{self.action} by {self.user_email} at {self.timestamp}>"

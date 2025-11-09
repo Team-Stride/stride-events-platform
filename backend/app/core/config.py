@@ -32,6 +32,9 @@ class Settings(BaseSettings):
     # Stride ID API Integration
     STRIDE_ID_API_URL: str = Field(default="https://api.strideahead.in/v1", description="Stride ID API base URL")
     STRIDE_ID_API_KEY: Optional[str] = Field(default=None, description="Stride ID API key")
+    STRIDE_ID_VALIDATION_URL: Optional[str] = Field(default=None, description="Stride ID token validation endpoint")
+    JWT_SECRET_KEY: str = Field(default_factory=lambda: secrets.token_urlsafe(32), description="JWT secret key for local validation")
+    JWT_ALGORITHM: str = Field(default="HS256", description="JWT algorithm")
     
     # SendGrid Email Service
     SENDGRID_API_KEY: Optional[str] = Field(default=None, description="SendGrid API key")

@@ -1130,6 +1130,99 @@ export default function EventLanding() {
                     <Input id="state" name="state" required />
                   </div>
                 </div>
+                
+                {/* Parental Consent Section for Minors */}
+                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 space-y-3">
+                  <h4 className="font-semibold text-sm text-yellow-900">Parental Consent (Required for students under 18)</h4>
+                  <div>
+                    <Label htmlFor="parentName">Parent/Guardian Name *</Label>
+                    <Input id="parentName" name="parentName" required />
+                  </div>
+                  <div>
+                    <Label htmlFor="parentEmail">Parent/Guardian Email *</Label>
+                    <Input id="parentEmail" name="parentEmail" type="email" required />
+                  </div>
+                  <div>
+                    <Label htmlFor="parentMobile">Parent/Guardian Mobile *</Label>
+                    <Input id="parentMobile" name="parentMobile" type="tel" required />
+                  </div>
+                </div>
+
+                {/* Legal Consent Checkboxes */}
+                <div className="space-y-3 border-t pt-4">
+                  <div className="flex items-start space-x-2">
+                    <input 
+                      type="checkbox" 
+                      id="termsConsent" 
+                      name="termsConsent" 
+                      required 
+                      className="mt-1"
+                    />
+                    <Label htmlFor="termsConsent" className="text-sm leading-relaxed cursor-pointer">
+                      I have read and agree to the{" "}
+                      <a href="/terms" target="_blank" className="text-indigo-600 hover:underline font-semibold">
+                        Terms and Conditions
+                      </a>
+                      {" "}*
+                    </Label>
+                  </div>
+                  
+                  <div className="flex items-start space-x-2">
+                    <input 
+                      type="checkbox" 
+                      id="privacyConsent" 
+                      name="privacyConsent" 
+                      required 
+                      className="mt-1"
+                    />
+                    <Label htmlFor="privacyConsent" className="text-sm leading-relaxed cursor-pointer">
+                      I have read and agree to the{" "}
+                      <a href="/privacy" target="_blank" className="text-indigo-600 hover:underline font-semibold">
+                        Privacy Policy
+                      </a>
+                      {" "}*
+                    </Label>
+                  </div>
+                  
+                  <div className="flex items-start space-x-2">
+                    <input 
+                      type="checkbox" 
+                      id="parentalConsent" 
+                      name="parentalConsent" 
+                      required 
+                      className="mt-1"
+                    />
+                    <Label htmlFor="parentalConsent" className="text-sm leading-relaxed cursor-pointer">
+                      As a parent/guardian, I consent to my child's participation in this event and the collection and processing of their personal information as described in the Privacy Policy. *
+                    </Label>
+                  </div>
+                  
+                  <div className="flex items-start space-x-2">
+                    <input 
+                      type="checkbox" 
+                      id="dataProcessingConsent" 
+                      name="dataProcessingConsent" 
+                      required 
+                      className="mt-1"
+                    />
+                    <Label htmlFor="dataProcessingConsent" className="text-sm leading-relaxed cursor-pointer">
+                      I consent to the processing of my personal data for event management, communication, and related purposes. *
+                    </Label>
+                  </div>
+                  
+                  <div className="flex items-start space-x-2">
+                    <input 
+                      type="checkbox" 
+                      id="marketingConsent" 
+                      name="marketingConsent" 
+                      className="mt-1"
+                    />
+                    <Label htmlFor="marketingConsent" className="text-sm leading-relaxed cursor-pointer">
+                      I would like to receive updates about future events and programs (optional)
+                    </Label>
+                  </div>
+                </div>
+
                 <Button type="submit" className="w-full" disabled={registerStudentMutation.isPending}>
                   {registerStudentMutation.isPending ? <Loader2 className="animate-spin" /> : "Submit Registration"}
                 </Button>
@@ -1170,6 +1263,69 @@ export default function EventLanding() {
                     <Input id="state" name="state" required />
                   </div>
                 </div>
+                
+                {/* Legal Consent Checkboxes for Schools */}
+                <div className="space-y-3 border-t pt-4">
+                  <div className="flex items-start space-x-2">
+                    <input 
+                      type="checkbox" 
+                      id="schoolTermsConsent" 
+                      name="termsConsent" 
+                      required 
+                      className="mt-1"
+                    />
+                    <Label htmlFor="schoolTermsConsent" className="text-sm leading-relaxed cursor-pointer">
+                      I have read and agree to the{" "}
+                      <a href="/terms" target="_blank" className="text-indigo-600 hover:underline font-semibold">
+                        Terms and Conditions
+                      </a>
+                      {" "}*
+                    </Label>
+                  </div>
+                  
+                  <div className="flex items-start space-x-2">
+                    <input 
+                      type="checkbox" 
+                      id="schoolPrivacyConsent" 
+                      name="privacyConsent" 
+                      required 
+                      className="mt-1"
+                    />
+                    <Label htmlFor="schoolPrivacyConsent" className="text-sm leading-relaxed cursor-pointer">
+                      I have read and agree to the{" "}
+                      <a href="/privacy" target="_blank" className="text-indigo-600 hover:underline font-semibold">
+                        Privacy Policy
+                      </a>
+                      {" "}*
+                    </Label>
+                  </div>
+                  
+                  <div className="flex items-start space-x-2">
+                    <input 
+                      type="checkbox" 
+                      id="schoolDataProcessingConsent" 
+                      name="dataProcessingConsent" 
+                      required 
+                      className="mt-1"
+                    />
+                    <Label htmlFor="schoolDataProcessingConsent" className="text-sm leading-relaxed cursor-pointer">
+                      I consent to the processing of school and contact person data for event management and communication purposes. *
+                    </Label>
+                  </div>
+                  
+                  <div className="flex items-start space-x-2">
+                    <input 
+                      type="checkbox" 
+                      id="schoolMarketingConsent" 
+                      name="marketingConsent" 
+                      className="mt-1"
+                    />
+                    <Label htmlFor="schoolMarketingConsent" className="text-sm leading-relaxed cursor-pointer">
+                      I would like to receive updates about future events and programs (optional)
+                    </Label>
+                  </div>
+                </div>
+
                 <Button type="submit" className="w-full" disabled={registerSchoolMutation.isPending}>
                   {registerSchoolMutation.isPending ? <Loader2 className="animate-spin" /> : "Register School (Free)"}
                 </Button>
